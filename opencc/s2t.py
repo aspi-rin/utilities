@@ -4,7 +4,7 @@ from opencc import OpenCC
 from send2trash import send2trash
 
 
-def convert_s2twp(file_path):
+def convert_simp_to_trad_tw(file_path):
     cc = OpenCC('s2twp')
 
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -19,9 +19,11 @@ def convert_s2twp(file_path):
     with open(new_file_path, 'w', encoding='utf-8') as file:
         file.write(converted_content)
 
-    send2trash(file_path)
-
-    print(f"已轉換並更新文件：{new_file_path}")
+    if new_filename != filename:
+        send2trash(file_path)
+        print(f"已轉換並更新檔案：{new_file_path}")
+    else:
+        print(f"檔名未變更，保留原檔案：{file_path}")
 
 
 def convert_folder(folder_path):
@@ -29,7 +31,7 @@ def convert_folder(folder_path):
         for filename in files:
             if filename.endswith('.md'):
                 file_path = os.path.join(root, filename)
-                convert_s2twp(file_path)
+                convert_simp_to_trad_tw(file_path)
 
 
 def main():
@@ -39,12 +41,12 @@ def main():
 
     if os.path.isdir(args.path):
         convert_folder(args.path)
-        print("所有文件夾內的文件轉換完畢！")
+        print("所有資料夾內的檔案轉換完畢！")
     elif os.path.isfile(args.path) and args.path.endswith('.md'):
-        convert_s2twp(args.path)
-        print("文件轉換完畢！")
+        convert_simp_to_trad_tw(args.path)
+        print("檔案轉換完畢！")
     else:
-        print("提供的路徑不是 Markdown 文件或指向有效文件夾。")
+        print("提供的路徑不是 Markdown 檔案或指向有效資料夾。")
 
 
 if __name__ == '__main__':
