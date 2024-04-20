@@ -1,0 +1,1 @@
+`python opencc/s2t.py folder_path` Convert the Simplified Chinese markdown file to Traditional Chinese
